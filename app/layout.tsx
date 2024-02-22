@@ -1,5 +1,8 @@
+"use client"
+
 import "./ui/globals.css"
 import { inter } from "./ui/fonts"
+import { useState } from "react"
 import Header from "./ui/header/header"
 
 interface RootLayoutProps {
@@ -7,6 +10,12 @@ interface RootLayoutProps {
 }
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
+  const [ isMobileNavOpen, setMobileNavOpen ] = useState<boolean>( false )
+
+  const handleToggleMobileNav = () => {
+    setMobileNavOpen( prevState => !prevState )
+  }
+
   return (
     <html lang="cs">
       <body 
@@ -19,7 +28,10 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                     sm:bg-cover sm:bg-center`
                   }
       >
-        <Header />
+        <Header 
+          handleToggleMobileNav={ handleToggleMobileNav }
+          isMobileNavOpen={ isMobileNavOpen }
+        />
         { children }
       </body>
     </html>

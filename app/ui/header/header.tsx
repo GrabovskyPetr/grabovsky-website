@@ -1,6 +1,12 @@
 import Logo from "./logo"
+import Hamburger from "./hamburger"
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    handleToggleMobileNav: () => void
+    isMobileNavOpen: boolean
+}
+
+const Header: React.FC<HeaderProps> = ({ handleToggleMobileNav, isMobileNavOpen }) => {
     return (
         <header 
             className="w-full h-24 p-1
@@ -20,13 +26,19 @@ const Header: React.FC = () => {
                                justify-center"
                 >
                     <Logo 
-                        firstColor="var(--color-accent-one)" 
-                        secondColor="var(--color-accent-two)" 
+                        firstColor="var(--color-accent-one)"
+                        secondColor={isMobileNavOpen ? "var(--color-accent-three)" 
+                                                     : "var(--color-accent-two)"
+                                    }
                     />
                 </div>
-                <div className="w-20 h-20 bg-accent-three flex items-center justify-center">
-                    MENU
-                </div>
+                <nav className="w-fit h-fit">
+
+                </nav>
+                <Hamburger 
+                    handleToggleMobileNav={ handleToggleMobileNav } 
+                    isMobileNavOpen={ isMobileNavOpen }
+                />                
             </div>
         </header>
     )
