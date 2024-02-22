@@ -1,5 +1,6 @@
 import "./ui/globals.css"
 import { inter } from "./ui/fonts"
+import Header from "./ui/header"
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -18,6 +19,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                     sm:bg-cover sm:bg-center`
                   }
       >
+        <Header />
         { children }
       </body>
     </html>

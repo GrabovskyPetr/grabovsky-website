@@ -18,7 +18,11 @@ const config: Config = {
         "primary-position": "-30rem 0rem",
       },
       colors: {
+        "primary-alpha": "var(--color-primary-alpha)",
         "secondary": "var(--color-secondary)",
+        "accent-one": "var(--color-accent-one)",
+        "accent-two": "var(--color-accent-two)",
+        "accent-three": "var(--color-accent-three)",
       },
     },
   },
