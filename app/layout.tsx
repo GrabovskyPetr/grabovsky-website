@@ -20,7 +20,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     <html lang="cs">
       <body 
         className={`${ inter.className }
-                    w-full min-h-screen 
+                    w-full min-h-screen
+                    flex flex-col
+                    items-center text-primary
                     overflow-x-hidden antialiased
                     bg-primary bg-primary-size
                     bg-primary-position bg-fixed
@@ -32,7 +34,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           handleToggleMobileNav={ handleToggleMobileNav }
           isMobileNavOpen={ isMobileNavOpen }
         />
-        { children }
+        <main className="max-w-5xl px-3 pb-1 pt-24">
+          { children }
+        </main>
       </body>
     </html>
   )

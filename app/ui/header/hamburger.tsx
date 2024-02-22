@@ -5,9 +5,10 @@ import { GiCrossMark } from "react-icons/gi"
 interface HamburgerProps {
     handleToggleMobileNav: () => void
     isMobileNavOpen: boolean
+    isShrunk: boolean
 }
 
-const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNavOpen }) => {
+const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNavOpen, isShrunk }) => {
     const iconVariants = {
         opened: {
             rotate: 180,
@@ -37,7 +38,12 @@ const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNa
                 className="absolute"
             >
                 <BiMenu 
-                    className="text-6xl text-secondary" 
+                    className={`${ isShrunk ? "text-5xl" 
+                                            : "text-6xl" 
+                                } 
+                                text-secondary transition-all 
+                                duration-500 ease-in-out`
+                    } 
                 />
             </motion.div>
             <motion.div
@@ -47,7 +53,12 @@ const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNa
                 className="absolute"
             >
                 <GiCrossMark 
-                    className="text-5xl text-accent-three"
+                    className={`${ isShrunk ? "text-4xl" 
+                                            : "text-5xl" 
+                                } 
+                                text-accent-three transition-all 
+                                duration-500 ease-in-out`
+                    }
                 />
             </motion.div>
         </button>
