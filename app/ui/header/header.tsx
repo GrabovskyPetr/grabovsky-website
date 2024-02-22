@@ -1,13 +1,12 @@
+"use client"
+
 import { useState, useEffect } from "react"
+import { useMobileNav } from "@/app/lib/mobileNavContext"
 import Logo from "./logo"
 import Hamburger from "./hamburger"
 
-interface HeaderProps {
-    handleToggleMobileNav: () => void
-    isMobileNavOpen: boolean
-}
-
-const Header: React.FC<HeaderProps> = ({ handleToggleMobileNav, isMobileNavOpen }) => {
+const Header: React.FC = () => {
+    const { isMobileNavOpen } = useMobileNav()
     const [ isShrunk, setShrunk ] = useState<boolean>( false )
 
     useEffect(() => {
@@ -57,11 +56,7 @@ const Header: React.FC<HeaderProps> = ({ handleToggleMobileNav, isMobileNavOpen 
                 <nav className="w-fit h-fit">
 
                 </nav>
-                <Hamburger 
-                    handleToggleMobileNav={ handleToggleMobileNav } 
-                    isMobileNavOpen={ isMobileNavOpen }
-                    isShrunk={ isShrunk }
-                />                
+                <Hamburger isShrunk={ isShrunk } />                
             </div>
         </header>
     )

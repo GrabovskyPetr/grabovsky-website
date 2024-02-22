@@ -1,28 +1,15 @@
+import { useMobileNav } from "@/app/lib/mobileNavContext"
 import { motion } from "framer-motion"
+import { fadeRotateScaleTransition } from "@/app/lib/animations"
 import { BiMenu } from "react-icons/bi"
 import { GiCrossMark } from "react-icons/gi"
 
 interface HamburgerProps {
-    handleToggleMobileNav: () => void
-    isMobileNavOpen: boolean
     isShrunk: boolean
 }
 
-const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNavOpen, isShrunk }) => {
-    const iconVariants = {
-        opened: {
-            rotate: 180,
-            opacity: 0,
-            scale: 0.5,
-            transition: { duration: 0.5 }
-        },
-        closed: {
-            rotate: 0,
-            opacity: 1,
-            scale: 1,
-            transition: { duration: 0.5 }
-        }
-    }
+const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
+    const { handleToggleMobileNav, isMobileNavOpen } = useMobileNav()    
 
     return (
         <button
@@ -32,9 +19,9 @@ const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNa
                        justify-center"                     
         >
             <motion.div
-                initial="closed"
-                animate={ isMobileNavOpen ? "opened" : "closed" }
-                variants={ iconVariants }
+                initial="exit"
+                animate={ isMobileNavOpen ? "enter" : "exit" }
+                variants={ fadeRotateScaleTransition }
                 className="absolute"
             >
                 <BiMenu 
@@ -47,9 +34,9 @@ const Hamburger: React.FC<HamburgerProps> = ({ handleToggleMobileNav, isMobileNa
                 />
             </motion.div>
             <motion.div
-                initial="opened"
-                animate={ isMobileNavOpen ? "closed" : "opened" }
-                variants={ iconVariants }
+                initial="enter"
+                animate={ isMobileNavOpen ? "exit" : "enter" }
+                variants={ fadeRotateScaleTransition }
                 className="absolute"
             >
                 <GiCrossMark 
