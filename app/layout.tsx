@@ -1,6 +1,6 @@
 import "./ui/globals.css"
 import { inter } from "./ui/fonts"
-import Header from "./ui/header"
+import Header from "./ui/header/header"
 
 interface RootLayoutProps {
   children: React.ReactNode
