@@ -6,7 +6,14 @@
  * které potřebují reagovat na změny stavu mobilní navigace.
  */
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useCallback } from "react"
+
+/**
+ * Importuje funkci 'throttle' z knihovny 'Lodash' pro omezení rychlosti vyvolání funkce.
+ * Používá se k optimalizaci výkonu při častých událostech, jako jsou kliknutí nebo scroll
+ * tím, že omezuje počet volání funkce na jedenkrát za určený časový interval.
+ */
+import { throttle } from "lodash"
 
 // Typová definice pro hodnoty poskytované MobileNavContextem.
 interface MobileNavContextType {
@@ -45,10 +52,14 @@ interface MobileNavContextProps {
 export const MobileNavProvider: React.FC<MobileNavContextProps> = ({ children }) => {
     const [ isMobileNavOpen, setIsMobileNavOpen ] = useState<boolean>( false )
 
-    // Handler pro změnu stavu mobilní navigace.
-    const handleToggleMobileNav = () => {
+    /**
+     * Handler pro změnu stavu mobilní navigace.
+     * Použití 'useCallback' pro zabránění opakovaného vytváření funkce
+     * a 'throttle' pro omezení rychlosti vyvolání funkce.
+     */
+    const handleToggleMobileNav = useCallback(throttle(() => {
         setIsMobileNavOpen( prevState => !prevState )
-    }
+    }, 500, { "trailing": false, "leading": true }), [])
 
     // Propaguje stav a funkce pro ovládání stavu do kontextu.
     return (

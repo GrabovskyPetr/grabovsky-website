@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useMobileNav } from "@/app/lib/mobileNavContext"
+import { throttle } from "lodash"
 import Logo from "./logo"
 import Hamburger from "./hamburger"
 
@@ -10,14 +11,15 @@ const Header: React.FC = () => {
     const [ isShrunk, setShrunk ] = useState<boolean>( false )
 
     useEffect(() => {
-        const handleScroll = () => {
+        const handleScroll = throttle(() => {
             const shouldBeShrunk = window.scrollY > 100 && window.innerWidth < 640
             setShrunk( shouldBeShrunk )
-        }
+        }, 500)
     
         window.addEventListener( "scroll", handleScroll)
     
         return () => {
+            handleScroll.cancel()
             window.removeEventListener( "scroll", handleScroll )
         }
     }, [])
@@ -46,7 +48,8 @@ const Header: React.FC = () => {
                     <Logo
                         widthClass={ isShrunk ? "w-12" : "w-20" }
                         firstColorClass="fill-accent-one"
-                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" : "fill-accent-two" }                                         
+                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" : "fill-accent-two" }
+                                         
                     />
                 </div>
                 <nav className="w-fit h-fit">

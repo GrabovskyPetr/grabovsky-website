@@ -1,3 +1,4 @@
+import React from "react"
 import { useMobileNav } from "@/app/lib/mobileNavContext"
 import { motion } from "framer-motion"
 import { fadeRotateScaleTransition } from "@/app/lib/animations"
@@ -9,14 +10,15 @@ interface HamburgerProps {
 }
 
 const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
-    const { handleToggleMobileNav, isMobileNavOpen } = useMobileNav()    
+    const { handleToggleMobileNav, isMobileNavOpen } = useMobileNav()
 
     return (
         <button
             onClick={ handleToggleMobileNav } 
             className="w-10 h-10 
                        flex items-center 
-                       justify-center"                     
+                       justify-center"
+            aria-label={ isMobileNavOpen ? "Zavřít menu" : "Zobrazit menu" }                     
         >
             <motion.div
                 initial="exit"
@@ -25,9 +27,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
                 className="absolute"
             >
                 <BiMenu 
-                    className={`${ isShrunk ? "text-5xl" 
-                                            : "text-6xl" 
-                                } 
+                    className={`text-${ isShrunk ? "5xl" : "6xl" } 
                                 text-secondary transition-all 
                                 duration-500 ease-in-out`
                     } 
@@ -40,9 +40,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
                 className="absolute"
             >
                 <GiCrossMark 
-                    className={`${ isShrunk ? "text-4xl" 
-                                            : "text-5xl" 
-                                } 
+                    className={`text-${ isShrunk ? "4xl" : "5xl" } 
                                 text-accent-three transition-all 
                                 duration-500 ease-in-out`
                     }
@@ -52,4 +50,4 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
     )
 }
 
-export default Hamburger
+export default React.memo( Hamburger )
