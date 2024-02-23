@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useMobileNav } from "@/app/lib/mobileNavContext"
 import { throttle } from "lodash"
 import Logo from "./logo"
@@ -10,17 +10,19 @@ const Header: React.FC = () => {
     const { isMobileNavOpen } = useMobileNav()
     const [ isShrunk, setShrunk ] = useState<boolean>( false )    
 
+    const checkShouldBeShrunk = useCallback(() => {
+        return window.scrollY > 100 && window.innerWidth < 640
+    }, [])
+
+    const headerHeightClass = isMobileNavOpen ? "h-screen" : isShrunk ? "h-14" : "h-24"
+
     useEffect(() => {
-        const checkShouldBeShrunk = () => {
-            return window.scrollY > 100 && window.innerWidth < 640
-        }
-    
         const handleScroll = throttle(() => {
             setShrunk( checkShouldBeShrunk() )
         }, 500)
-    
-        if (!isMobileNavOpen) {
-            window.addEventListener( "scroll", handleScroll )    
+
+        if ( !isMobileNavOpen ) {
+            window.addEventListener( "scroll", handleScroll )
             setShrunk( checkShouldBeShrunk() )
         }
 
@@ -28,21 +30,20 @@ const Header: React.FC = () => {
             handleScroll.cancel()
             window.removeEventListener( "scroll", handleScroll )
         }
-    }, [ isMobileNavOpen ])
+    }, [ isMobileNavOpen, checkShouldBeShrunk ])
 
     useEffect(() => {
         if ( isMobileNavOpen ) {
             document.body.classList.add( "overflow-hidden" )
+            setShrunk( false )
         } else {
             document.body.classList.remove( "overflow-hidden" )
         }
 
         return () => {
-            document.body.classList.remove("overflow-hidden")
+            document.body.classList.remove( "overflow-hidden" )
         }
     }, [ isMobileNavOpen ])
-
-    const headerHeightClass = isMobileNavOpen ? "h-screen" : isShrunk ? "h-14" : "h-24"
 
     return (
         <header 
