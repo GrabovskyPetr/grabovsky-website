@@ -15,10 +15,10 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
     return (
         <button
             onClick={ handleToggleMobileNav } 
-            className="w-10 h-10 
-                       flex items-center 
-                       justify-center"
-            aria-label={ isMobileNavOpen ? "Zavřít menu" : "Zobrazit menu" }                     
+            className={`${ isShrunk ? "w-10 h-10" : "w-12 h-12" }
+                        flex items-center 
+                        justify-center`}
+            aria-label={ isMobileNavOpen ? "Skrýt navigaci" : "Zobrazit navigaci" }                     
         >
             <motion.div
                 initial="exit"
@@ -40,10 +40,9 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
                 className="absolute"
             >
                 <GiCrossMark 
-                    className={`${ isShrunk ? "text-4xl" : "text-5xl" } 
-                                text-accent-three transition-all 
-                                duration-500 ease-in-out`
-                    }
+                    className="text-5xl text-accent-three 
+                               transition-all 
+                               duration-500 ease-in-out"                    
                 />
             </motion.div>
         </button>

@@ -8,72 +8,67 @@ import Hamburger from "./hamburger"
 
 const Header: React.FC = () => {
     const { isMobileNavOpen } = useMobileNav()
-    const [ isShrunk, setShrunk ] = useState<boolean>( false )
-
-    // Funkce pro kontrolu, zda má být hlavička zmenšena.
-    const checkShouldBeShrunk = () => {
-        return window.scrollY > 100 && window.innerWidth < 640
-    }
+    const [ isShrunk, setShrunk ] = useState<boolean>( false )    
 
     useEffect(() => {
-        // Funkce pro zpracování scrollování.
+        const checkShouldBeShrunk = () => {
+            return window.scrollY > 100 && window.innerWidth < 640
+        }
+    
         const handleScroll = throttle(() => {
             if ( !isMobileNavOpen ) {
                 setShrunk( checkShouldBeShrunk() )
             }
         }, 500)
-
-        // Přidávání posluchače události, pokud navigace není otevřena.
-        if ( !isMobileNavOpen ) {
-            window.addEventListener( "scroll", handleScroll )
-        }
-
-        // Nastavování stavu zmenšení při změně isMobileNavOpen.
-        if ( isMobileNavOpen ) {
-            setShrunk( false )
-        } else {
-            setShrunk( checkShouldBeShrunk() )
-        }
-
-        // Čištění na odpojení komponenty nebo při změně isMobileNavOpen.
+    
+        window.addEventListener( "scroll", handleScroll )
+    
+        setShrunk( isMobileNavOpen ? false : checkShouldBeShrunk() )
+    
         return () => {
-            handleScroll.cancel();
+            handleScroll.cancel()
             window.removeEventListener( "scroll", handleScroll )
-        };
-    }, [ isMobileNavOpen ]); // Závislosti useEffectu.
+        }
+    }, [ isMobileNavOpen ])
+
+    const checkShouldBeShrunk = () => {
+        return window.scrollY > 100 && window.innerWidth < 640
+    }
+
+    const headerHeightClass = isMobileNavOpen ? "h-screen" : isShrunk ? "h-14" : "h-24"
 
     return (
         <header 
-            className={`${ isShrunk ? "h-14" : "h-24" }
-                        w-full p-1
-                        overflow-hidden
-                        bg-primary-alpha flex
-                        fixed backdrop-blur-sm
-                        justify-center items-center
-                        transition-all duration-500
-                        ease-in-out`
+            className={ `${ headerHeightClass } 
+                         w-full fixed 
+                         transition-all
+                         duration-300 ease-in-out 
+                         flex items-center justify-center
+                         bg-primary-alpha backdrop-blur-sm` 
             }
         >
+            {/* Kontejner */}
             <div 
                 className="w-full max-w-5xl 
-                           h-full flex px-3
-                           justify-between items-center"
+                           h-full px-3"
             >
+
+                {/* Logo, navigace, tlačítko */}
                 <div 
-                    className="flex items-center 
-                               justify-center"                    
+                    className={`${ isShrunk ? "h-14" : "h-24" } 
+                                 w-full transition-all duration-300
+                                 ease-in-out py-1 flex
+                                 justify-between items-center`
+                    }
                 >
                     <Logo
-                        widthClass={ isShrunk ? "w-12" : "w-20" }
                         firstColorClass="fill-accent-one"
-                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" : "fill-accent-two" }
-                                         
+                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" 
+                                                           : "fill-accent-two" 
+                                         }
                     />
+                    <Hamburger isShrunk={ isShrunk } />
                 </div>
-                <nav className="w-fit h-fit">
-
-                </nav>
-                <Hamburger isShrunk={ isShrunk } />                
             </div>
         </header>
     )

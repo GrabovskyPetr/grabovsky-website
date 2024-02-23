@@ -3,22 +3,22 @@ import { logoPaths } from "./logoPaths"
 
 interface LogoProps {
     firstColorClass: string
-    secondColorClass: string 
-    widthClass: string
+    secondColorClass: string
 }
 
-const Logo: React.FC<LogoProps> = ({ firstColorClass, secondColorClass, widthClass }) => {
+const Logo: React.FC<LogoProps> = ({ firstColorClass, secondColorClass }) => {
     const getColorClass = ( colorClassKey: string ) => {
         return colorClassKey === "firstColorClass" ? firstColorClass 
                                                    : secondColorClass
     }
+
     return (
         <svg
             viewBox="0 0 1909.09 2000"
             style={{ shapeRendering: "geometricPrecision" }}
-            className={ `${ widthClass } transition-all duration-500 ease-in-out` }
+            className="h-full"
         >
-            {logoPaths.map((path, index) => (
+            {logoPaths.map(( path, index)  => (
                 <path 
                     key={ index } 
                     d={ path.d } 
