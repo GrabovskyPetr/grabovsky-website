@@ -16,24 +16,31 @@ const Header: React.FC = () => {
         }
     
         const handleScroll = throttle(() => {
-            if ( !isMobileNavOpen ) {
-                setShrunk( checkShouldBeShrunk() )
-            }
+            setShrunk( checkShouldBeShrunk() )
         }, 500)
     
-        window.addEventListener( "scroll", handleScroll )
-    
-        setShrunk( isMobileNavOpen ? false : checkShouldBeShrunk() )
-    
+        if (!isMobileNavOpen) {
+            window.addEventListener( "scroll", handleScroll )    
+            setShrunk( checkShouldBeShrunk() )
+        }
+
         return () => {
             handleScroll.cancel()
             window.removeEventListener( "scroll", handleScroll )
         }
     }, [ isMobileNavOpen ])
 
-    const checkShouldBeShrunk = () => {
-        return window.scrollY > 100 && window.innerWidth < 640
-    }
+    useEffect(() => {
+        if ( isMobileNavOpen ) {
+            document.body.classList.add( "overflow-hidden" )
+        } else {
+            document.body.classList.remove( "overflow-hidden" )
+        }
+
+        return () => {
+            document.body.classList.remove("overflow-hidden")
+        }
+    }, [ isMobileNavOpen ])
 
     const headerHeightClass = isMobileNavOpen ? "h-screen" : isShrunk ? "h-14" : "h-24"
 
