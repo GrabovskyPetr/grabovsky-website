@@ -11,11 +11,12 @@ const Header: React.FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setShrunk( window.scrollY > 100 )
+            const shouldBeShrunk = window.scrollY > 100 && window.innerWidth < 640
+            setShrunk( shouldBeShrunk )
         }
-
-        window.addEventListener( "scroll", handleScroll )
-
+    
+        window.addEventListener( "scroll", handleScroll)
+    
         return () => {
             window.removeEventListener( "scroll", handleScroll )
         }
@@ -39,18 +40,13 @@ const Header: React.FC = () => {
                            justify-between items-center"
             >
                 <div 
-                    className={`${ isShrunk ? "w-12" : "w-20" }
-                                flex items-center 
-                                justify-center
-                                transition-all duration-500
-                                ease-in-out`
-                    }
+                    className="flex items-center 
+                               justify-center"                    
                 >
-                    <Logo 
-                        firstColor="var(--color-accent-one)"
-                        secondColor={isMobileNavOpen ? "var(--color-accent-three)" 
-                                                     : "var(--color-accent-two)"
-                                    }
+                    <Logo
+                        widthClass={ isShrunk ? "w-12" : "w-20" }
+                        firstColorClass="fill-accent-one"
+                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" : "fill-accent-two" }                                         
                     />
                 </div>
                 <nav className="w-fit h-fit">
