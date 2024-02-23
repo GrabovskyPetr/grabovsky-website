@@ -10,19 +10,37 @@ const Header: React.FC = () => {
     const { isMobileNavOpen } = useMobileNav()
     const [ isShrunk, setShrunk ] = useState<boolean>( false )
 
+    // Funkce pro kontrolu, zda má být hlavička zmenšena.
+    const checkShouldBeShrunk = () => {
+        return window.scrollY > 100 && window.innerWidth < 640
+    }
+
     useEffect(() => {
+        // Funkce pro zpracování scrollování.
         const handleScroll = throttle(() => {
-            const shouldBeShrunk = window.scrollY > 100 && window.innerWidth < 640
-            setShrunk( shouldBeShrunk )
+            if ( !isMobileNavOpen ) {
+                setShrunk( checkShouldBeShrunk() )
+            }
         }, 500)
-    
-        window.addEventListener( "scroll", handleScroll)
-    
-        return () => {
-            handleScroll.cancel()
-            window.removeEventListener( "scroll", handleScroll )
+
+        // Přidávání posluchače události, pokud navigace není otevřena.
+        if ( !isMobileNavOpen ) {
+            window.addEventListener( "scroll", handleScroll )
         }
-    }, [])
+
+        // Nastavování stavu zmenšení při změně isMobileNavOpen.
+        if ( isMobileNavOpen ) {
+            setShrunk( false )
+        } else {
+            setShrunk( checkShouldBeShrunk() )
+        }
+
+        // Čištění na odpojení komponenty nebo při změně isMobileNavOpen.
+        return () => {
+            handleScroll.cancel();
+            window.removeEventListener( "scroll", handleScroll )
+        };
+    }, [ isMobileNavOpen ]); // Závislosti useEffectu.
 
     return (
         <header 

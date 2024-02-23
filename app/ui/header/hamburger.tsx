@@ -27,7 +27,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
                 className="absolute"
             >
                 <BiMenu 
-                    className={`text-${ isShrunk ? "5xl" : "6xl" } 
+                    className={`${ isShrunk ? "text-5xl" : "text-6xl" } 
                                 text-secondary transition-all 
                                 duration-500 ease-in-out`
                     } 
@@ -40,7 +40,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ isShrunk }) => {
                 className="absolute"
             >
                 <GiCrossMark 
-                    className={`text-${ isShrunk ? "4xl" : "5xl" } 
+                    className={`${ isShrunk ? "text-4xl" : "text-5xl" } 
                                 text-accent-three transition-all 
                                 duration-500 ease-in-out`
                     }
