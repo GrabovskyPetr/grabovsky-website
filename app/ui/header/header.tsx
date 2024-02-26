@@ -1,58 +1,21 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import { useMobileNav } from "@/app/lib/mobileNavContext"
-import { throttle } from "lodash"
 import Logo from "./logo"
 import Hamburger from "./hamburger"
+import { useRootContext } from "@/app/layout"
 
 const Header: React.FC = () => {
-    const { isMobileNavOpen } = useMobileNav()
-    const [ isShrunk, setShrunk ] = useState<boolean>( false )    
-
-    const checkShouldBeShrunk = useCallback(() => {
-        return window.scrollY > 100 && window.innerWidth < 640
-    }, [])
-
-    const headerHeightClass = isMobileNavOpen ? "h-screen" : isShrunk ? "h-14" : "h-24"
-
-    useEffect(() => {
-        const handleScroll = throttle(() => {
-            setShrunk( checkShouldBeShrunk() )
-        }, 500)
-
-        if ( !isMobileNavOpen ) {
-            window.addEventListener( "scroll", handleScroll )
-            setShrunk( checkShouldBeShrunk() )
-        }
-
-        return () => {
-            handleScroll.cancel()
-            window.removeEventListener( "scroll", handleScroll )
-        }
-    }, [ isMobileNavOpen, checkShouldBeShrunk ])
-
-    useEffect(() => {
-        if ( isMobileNavOpen ) {
-            document.body.classList.add( "overflow-hidden" )
-            setShrunk( false )
-        } else {
-            document.body.classList.remove( "overflow-hidden" )
-        }
-
-        return () => {
-            document.body.classList.remove( "overflow-hidden" )
-        }
-    }, [ isMobileNavOpen ])
+    const { isScrolledTop, isScreenSmall, isMobileNavVisible } = useRootContext()
 
     return (
-        <header 
-            className={ `${ headerHeightClass } 
-                         w-full fixed 
-                         transition-all
-                         duration-300 ease-in-out 
-                         flex items-center justify-center
-                         bg-primary-alpha backdrop-blur-sm` 
+        <header
+            className={`${ isMobileNavVisible ? "h-screen" : 
+                           isScreenSmall && !isScrolledTop ? "h-14" : "h-24" 
+                        }
+                        w-full fixed transition-all 
+                        duration-300 ease-in-out 
+                        flex items-center justify-center 
+                        bg-primary-alpha backdrop-blur-sm`
             }
         >
             {/* Kontejner */}
@@ -63,19 +26,20 @@ const Header: React.FC = () => {
 
                 {/* Logo, navigace, tlačítko */}
                 <div 
-                    className={`${ isShrunk ? "h-14" : "h-24" } 
-                                 w-full transition-all duration-300
-                                 ease-in-out py-1 flex
-                                 justify-between items-center`
+                    className={`${ isMobileNavVisible ? "h-24" : 
+                                   isScreenSmall && !isScrolledTop ? "h-14" : "h-24" 
+                                }
+                                w-full transition-all
+                                duration-300 ease-in-out
+                                py-1 flex justify-between
+                                items-center`
                     }
                 >
                     <Logo
                         firstColorClass="fill-accent-one"
-                        secondColorClass={ isMobileNavOpen ? "fill-accent-three" 
-                                                           : "fill-accent-two" 
-                                         }
+                        secondColorClass={ "fill-accent-three" }
                     />
-                    <Hamburger isShrunk={ isShrunk } />
+                    <Hamburger />
                 </div>
             </div>
         </header>
