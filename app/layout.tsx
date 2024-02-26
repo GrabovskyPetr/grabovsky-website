@@ -15,7 +15,7 @@ interface RootContextInterface {
   setIsMobileNavVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const RootContext = createContext<RootContextInterface | undefined>( undefined )
+const RootContext = createContext<RootContextInterface | undefined>( undefined )
 
 export const useRootContext = () => {
   const context = useContext( RootContext )
@@ -48,7 +48,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
   const handleScroll = useCallback(throttle(() => {
     const isScrolledTopNow = window.scrollY < 50
-    
+
     setIsScrolledTop( isScrolledTopNow )
   }, 500), [])
 
