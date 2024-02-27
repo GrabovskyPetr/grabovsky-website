@@ -1,11 +1,10 @@
-import React from "react"
+import React, { useCallback } from "react"
+import { useGlobalContext } from "@/app/lib/globalContext"
+import throttle from "lodash/throttle"
 import { motion } from "framer-motion"
 import { fadeRotateScaleTransition } from "@/app/lib/animations"
 import { BiMenu } from "react-icons/bi"
 import { GiCrossMark } from "react-icons/gi"
-import { useRootContext } from "@/app/layout"
-import { throttle } from "lodash"
-import { useCallback } from "react"
 
 const Hamburger: React.FC = () => {
     const { 
@@ -13,50 +12,39 @@ const Hamburger: React.FC = () => {
         isScrolledTop, 
         isMobileNavVisible, 
         setIsMobileNavVisible 
-    } = useRootContext()
-
-    console.log("Hamburger")
+    } = useGlobalContext()
 
     const handleToggleMenu = useCallback(throttle(() => {
         setIsMobileNavVisible( prevState => !prevState )
     }, 500), [])
 
-    return isScreenSmall && (
+    if ( !isScreenSmall ) return null
+
+    return (
         <button
             onClick={ handleToggleMenu }
-            className={`${ isScrolledTop || isMobileNavVisible ? "w-12 h-12" 
-                                                               : "w-10 h-10" 
-                        }
-                       flex items-center 
-                       justify-center`
-            }
-            aria-label={ isMobileNavVisible ? "Skrýt menu" 
-                                            : "Zobrazit menu" 
-            }                                 
+            className={`${ isScrolledTop || isMobileNavVisible ? "w-12 h-12" : "w-10 h-10" } 
+                        flex items-center justify-center
+            `}
+            aria-label={ isMobileNavVisible ? "Skrýt menu" : "Zobrazit menu" }                                 
         >
             <motion.div
                 initial="exit"
                 variants={ fadeRotateScaleTransition }
-                animate={ isMobileNavVisible ? "enter" 
-                                             : "exit" 
-                }
+                animate={ isMobileNavVisible ? "enter" : "exit" }
                 className="absolute"
             >
                 <BiMenu 
-                    className={`${ isMobileNavVisible || isScrolledTop ? "text-6xl" 
-                                                                       : "text-5xl" 
-                                }
+                    className={`${ isMobileNavVisible || isScrolledTop ? "text-6xl" : "text-5xl" }
                                 transition-all duration-500
-                                text-secondary ease-in-out`
-                    } 
+                                text-secondary ease-in-out
+                    `} 
                 />
             </motion.div>
             <motion.div
                 initial="enter"
                 variants={ fadeRotateScaleTransition }
-                animate={ isMobileNavVisible ? "exit" 
-                                             : "enter" 
-                }
+                animate={ isMobileNavVisible ? "exit" : "enter" }
                 className="absolute"
             >
                 <GiCrossMark 

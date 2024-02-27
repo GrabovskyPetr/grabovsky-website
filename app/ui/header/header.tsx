@@ -1,46 +1,47 @@
 "use client"
 
+import { useGlobalContext } from "@/app/lib/globalContext"
 import Logo from "./logo"
 import Hamburger from "./hamburger"
-import { useRootContext } from "@/app/layout"
+import Nav from "./nav"
 
 const Header: React.FC = () => {
-    const { isScrolledTop, isScreenSmall, isMobileNavVisible } = useRootContext()
+    const { isScreenSmall, isScrolledTop, isMobileNavVisible } = useGlobalContext()
+
+    const headerHeight = isMobileNavVisible
+        ? "h-screen"
+        : isScreenSmall && !isScrolledTop
+        ? "h-14"
+        : "h-24"
+
+    const contentDivHeigth = isMobileNavVisible
+        ? "h-24"
+        : isScreenSmall && !isScrolledTop
+        ? "h-14"
+        : "h-24"
 
     return (
         <header
-            className={`${ isMobileNavVisible ? "h-screen" : 
-                           isScreenSmall && !isScrolledTop ? "h-14" : "h-24" 
-                        }
+            className={`${ headerHeight }
                         w-full fixed transition-all 
                         duration-300 ease-in-out 
                         flex items-center justify-center 
-                        bg-primary-alpha backdrop-blur-sm`
-            }
+                        bg-primary-alpha backdrop-blur-sm
+                        overflow-hidden                      
+            `}
         >
-            {/* Kontejner */}
-            <div 
-                className="w-full max-w-5xl 
-                           h-full px-3"
-            >
-
-                {/* Logo, navigace, tlačítko */}
+            <div className="w-full max-w-5xl h-full px-3">
                 <div 
-                    className={`${ isMobileNavVisible ? "h-24" : 
-                                   isScreenSmall && !isScrolledTop ? "h-14" : "h-24" 
-                                }
-                                w-full transition-all
-                                duration-300 ease-in-out
-                                py-1 flex justify-between
-                                items-center`
-                    }
+                    className={`${ contentDivHeigth }
+                                w-full transition-all duration-300 
+                                ease-in-out py-1 flex justify-between
+                                items-center
+                    `}
                 >
-                    <Logo
-                        firstColorClass="fill-accent-one"
-                        secondColorClass={ "fill-accent-three" }
-                    />
+                    <Logo />
                     <Hamburger />
                 </div>
+                <Nav />
             </div>
         </header>
     )
