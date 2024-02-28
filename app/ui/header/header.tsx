@@ -3,7 +3,7 @@
 import { useGlobalContext } from "@/app/lib/globalContext"
 import Logo from "./logo"
 import Hamburger from "./hamburger"
-import Nav from "./nav"
+import MobileNav from "./mobileNav"
 
 const Header: React.FC = () => {
     const { isScreenSmall, isScrolledTop, isMobileNavVisible } = useGlobalContext()
@@ -30,7 +30,7 @@ const Header: React.FC = () => {
                         overflow-hidden                      
             `}
         >
-            <div className="w-full max-w-5xl h-full px-3">
+            <div className="w-full max-w-5xl h-full px-3 flex flex-col items-center">
                 <div 
                     className={`${ contentDivHeigth }
                                 w-full transition-all duration-300 
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
                     <Logo />
                     <Hamburger />
                 </div>
-                <Nav />
+                <MobileNav />
             </div>
         </header>
     )

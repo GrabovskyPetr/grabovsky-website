@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "primary": "url('/primary-background.svg')",        
+        "primary": "url('/primary-background.svg')",
       },
       backgroundSize: {
         "primary-size": "1536px 1024px",

@@ -7,14 +7,14 @@ import { FaPhone } from "react-icons/fa6"
 interface NavItem {
     name: string
     href: string
-    icon: IconType
+    Icon: IconType
 }
 
 const navItems: NavItem[] = [
-    { name: "Domů", href: "/", icon: FaHome },
-    { name: "O mně", href: "/aboutMe", icon: IoIosPerson },
-    { name: "Projekty", href: "/projects", icon: FaDiagramProject },
-    { name: "Kontakt", href: "/contact", icon: FaPhone }
+    { name: "Domů", href: "/", Icon: FaHome },
+    { name: "O mně", href: "/aboutMe", Icon: IoIosPerson },
+    { name: "Projekty", href: "/projects", Icon: FaDiagramProject },
+    { name: "Kontakt", href: "/contact", Icon: FaPhone }
 ]
 
 export default navItems
