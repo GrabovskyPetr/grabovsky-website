@@ -26,7 +26,7 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             className={clsx(
                 isActive ? "scale-125" : "scale-100",
                 isMobileNavVisible ? "opacity-100" : "opacity-0",                
-                "flex items-center space-x-5", 
+                "flex items-center space-x-5 z-20", 
                 "transition-all duration-300 ease-in-out"
         )}>
             <div className={clsx(
@@ -37,9 +37,11 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             )}>
                 <Icon />
             </div>            
-            <div className="text-secondary font-bold transition-all 
-                duration-300 ease-in-out text-xl"
-            >
+            <div className={clsx(
+                isActive ? "text-secondary" : "text-secondary-darker",                
+                "text-secondary font-bold transition-all",
+                "duration-300 ease-in-out text-xl"
+            )}>
                 { name }
             </div>
         </Link>

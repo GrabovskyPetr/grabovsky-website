@@ -21,6 +21,7 @@ const config: Config = {
         "primary": "var(--color-primary)",
         "primary-alpha": "var(--color-primary-alpha)",
         "secondary": "var(--color-secondary)",
+        "secondary-darker": "var(--color-secondary-darker)", 
         "accent-one": "var(--color-accent-one)",
         "accent-two": "var(--color-accent-two)",
         "accent-three": "var(--color-accent-three)",
