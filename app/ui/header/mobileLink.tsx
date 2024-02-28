@@ -25,7 +25,8 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             href={ href }
             className={clsx(
                 isActive ? "scale-110 font-bold" : "scale-100",
-                "flex space-x-5 z-20 transition-all duration-300 ease-in-out"
+                isMobileNavVisible ? "opacity-100" : "opacity-0",
+                "flex space-x-5 transition-all duration-300 ease-in-out"
         )}>
             <Icon className={clsx(
                 isActive ? "text-accent-one" : "text-secondary-darker",

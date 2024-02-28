@@ -24,7 +24,7 @@ const Hamburger: React.FC = () => {
         <button
             onClick={ handleToggleMenu }
             className={`${ isScrolledTop || isMobileNavVisible ? "w-12 h-12" : "w-10 h-10" } 
-                        flex items-center justify-center z-20
+                        flex items-center justify-center
             `}
             aria-label={ isMobileNavVisible ? "Skrýt menu" : "Zobrazit menu" }                                 
         >
