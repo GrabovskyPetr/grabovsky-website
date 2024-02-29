@@ -13,7 +13,8 @@ interface MobileLinkProps {
 const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) => {
     const { isMobileNavVisible, setIsMobileNavVisible } = useGlobalContext()
 
-    const handleMobileLinkClick = () => {
+    const handleMobileLinkClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
         setTimeout(() => {
             setIsMobileNavVisible( false )
         }, 300)
@@ -26,7 +27,7 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             className={clsx(
                 isActive ? "scale-110 font-bold" : "scale-100",
                 isMobileNavVisible ? "opacity-100" : "opacity-0",
-                "flex space-x-5 transition-all duration-300 ease-in-out"
+                "flex space-x-5 transition-all duration-300 ease-in-out z-20"
         )}>
             <Icon className={clsx(
                 isActive ? "text-accent-one" : "text-secondary-darker",

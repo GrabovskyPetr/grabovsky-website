@@ -6,7 +6,13 @@ import Hamburger from "./hamburger"
 import MobileNav from "./mobileNav"
 
 const Header: React.FC = () => {
-    const { isScreenSmall, isScrolledTop, isMobileNavVisible } = useGlobalContext()
+    const { isScreenSmall, isScrolledTop, isMobileNavVisible, setIsMobileNavVisible } = useGlobalContext()
+
+    const handleHeaderClick = () => {
+        if ( isMobileNavVisible ) {
+            setIsMobileNavVisible( false )
+        }
+    }
 
     const headerHeight = isMobileNavVisible
         ? "h-screen"
@@ -22,12 +28,13 @@ const Header: React.FC = () => {
 
     return (
         <header
+            onClick={ handleHeaderClick }
             className={`${ headerHeight }
                         w-full fixed transition-all 
                         duration-300 ease-in-out 
                         flex items-center justify-center 
                         bg-primary-alpha backdrop-blur-sm
-                        overflow-hidden                      
+                        overflow-hidden z-10            
             `}
         >
             <div className="w-full max-w-5xl h-full px-3 flex flex-col items-center">

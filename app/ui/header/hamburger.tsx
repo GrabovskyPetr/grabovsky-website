@@ -14,7 +14,8 @@ const Hamburger: React.FC = () => {
         setIsMobileNavVisible 
     } = useGlobalContext()
 
-    const handleToggleMenu = useCallback(throttle(() => {
+    const handleToggleMenu = useCallback(throttle((e: React.MouseEvent) => {
+        e.stopPropagation()
         setIsMobileNavVisible( prevState => !prevState )
     }, 500), [])
 
