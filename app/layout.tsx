@@ -2,6 +2,7 @@ import "./ui/globals.css"
 import { GlobalContextProvider } from "./lib/globalContext"
 import { inter } from "./ui/fonts"
 import Header from "./ui/header/header"
+import Footer from "./ui/footer"
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -25,9 +26,10 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       >
         <GlobalContextProvider>
           <Header />
-          <main className="max-w-5xl px-3 pb-1 pt-24">          
+          <main className="max-w-5xl px-3 pb-1 pt-24 flex-grow">          
             { children }          
           </main>
+          <Footer />
         </GlobalContextProvider>
       </body>
     </html>
