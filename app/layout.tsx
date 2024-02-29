@@ -25,7 +25,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         `}
       >
         <GlobalContextProvider>
-          <Header />
+          <Header />          
           <main className="max-w-5xl px-3 pb-1 pt-24 flex-grow">          
             { children }          
           </main>

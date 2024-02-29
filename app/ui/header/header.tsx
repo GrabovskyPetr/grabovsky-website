@@ -1,12 +1,23 @@
 "use client"
 
 import { useGlobalContext } from "@/app/lib/globalContext"
+import { useSpring, animated } from 'react-spring';
 import Logo from "./logo"
 import Hamburger from "./hamburger"
 import MobileNav from "./mobileNav"
 
 const Header: React.FC = () => {
     const { isScreenSmall, isScrolledTop, isMobileNavVisible, setIsMobileNavVisible } = useGlobalContext()
+
+    const headerAnimation = useSpring({
+        to: { transform: 'translateX(0%)', opacity: 1 },
+        from: { transform: 'translateX(-100%)', opacity: 0 },
+        config: {
+            tension: 200, // Zvyšte pro více "pružnosti"
+            friction: 12, // Snížení zvýší "bounce" efekt
+            mass: 1, // Hmotnost objektu, můžete experimentovat s touto hodnotou
+        }
+    });
 
     const handleHeaderClick = () => {
         if ( isMobileNavVisible ) {
@@ -27,7 +38,8 @@ const Header: React.FC = () => {
         : "h-24"
 
     return (
-        <header
+        <animated.header
+            style={headerAnimation}
             onClick={ handleHeaderClick }
             className={`${ headerHeight }
                         w-full fixed transition-all 
@@ -50,7 +62,7 @@ const Header: React.FC = () => {
                 </div>
                 <MobileNav />
             </div>
-        </header>
+        </animated.header>
     )
 }
 
