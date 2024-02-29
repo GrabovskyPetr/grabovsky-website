@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { clsx } from "clsx"
+import { silkscreen } from "../fonts" 
 import { IconType } from "react-icons"
 import { useGlobalContext } from "@/app/lib/globalContext"
 
@@ -25,9 +26,9 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             onClick={ handleMobileLinkClick }
             href={ href }
             className={clsx(
-                isActive ? "scale-110 font-bold" : "scale-100",
+                isActive ? "scale-110 font-bold tracking-widest" : "scale-100 tracking-wider",
                 isMobileNavVisible ? "opacity-100" : "opacity-0",
-                "flex space-x-5 transition-all duration-300 ease-in-out z-20"
+                `${ silkscreen.className } flex space-x-5 transition-all duration-300 ease-in-out z-20`
         )}>
             <Icon className={clsx(
                 isActive ? "text-accent-one" : "text-secondary-darker",
@@ -35,7 +36,7 @@ const MobileLink: React.FC<MobileLinkProps> = ({ name, href, Icon, isActive }) =
             )}/>
             <span className={clsx(
                 isActive ? "text-secondary" : "text-secondary-darker",
-                "flex items-center justify-start w-20"
+                "flex items-center justify-start w-20 uppercase"
             )}>
                 { name }
             </span>

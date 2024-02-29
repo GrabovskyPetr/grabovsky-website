@@ -9,10 +9,6 @@ const MobileNav: React.FC = () => {
     const { setIsMobileNavVisible, isMobileNavVisible, isScreenSmall } = useGlobalContext()
     const pathName = usePathname()
 
-    const handleBackdropClick = useCallback(() => {
-        setIsMobileNavVisible( false )
-    }, [])
-
     const trail = useTrail(navItems.length, useMemo(() => ({
         opacity: isMobileNavVisible ? 1 : 0,
         x: isMobileNavVisible ? 0 : -200,
