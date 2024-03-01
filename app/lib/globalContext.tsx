@@ -1,29 +1,30 @@
 "use client"
 
 import throttle from "lodash/throttle"
+import { ScrollPosition } from "./definitions"
 import {
     createContext, useContext, useState, Dispatch,
     SetStateAction, ReactNode, useEffect, useCallback 
 } from "react"
 
 interface GlobalContextInterface {
-    isScrolledTop: boolean
+    scrollPosition: ScrollPosition
     isScreenSmall: boolean
     isMobileNavVisible: boolean
     setIsMobileNavVisible: Dispatch<SetStateAction<boolean>>
 }
 
 const GlobalContext = createContext<GlobalContextInterface>({
-    isScrolledTop: true,
+    scrollPosition: "top",
     isScreenSmall: false,
     isMobileNavVisible: false,
     setIsMobileNavVisible: () => {}
 })
 
 export const GlobalContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [ isScrolledTop, setIsScrolledTop ] = useState( true )
-  const [ isScreenSmall, setIsScreenSmall ] = useState( false )
-  const [ isMobileNavVisible, setIsMobileNavVisible ] = useState( false )
+  const [ scrollPosition, setScrollPosition ] = useState<ScrollPosition>( "top" )
+  const [ isScreenSmall, setIsScreenSmall ] = useState<boolean>( false )
+  const [ isMobileNavVisible, setIsMobileNavVisible ] = useState<boolean>( false )
 
   const handleScreenResize = useCallback(throttle(() => {
     const checkIsScreenSmall = window.innerWidth < 640
@@ -36,7 +37,20 @@ export const GlobalContextProvider: React.FC<{ children: ReactNode }> = ({ child
   }, 100), [])
 
   const handleScroll = useCallback(throttle(() => {
-    setIsScrolledTop( window.scrollY < 50 )
+    const scrolled = window.scrollY
+    const threshold = 50
+    const bottomThreshold = document.documentElement.scrollHeight - window.innerHeight - threshold
+
+    let newPosition: "top" | "middle" | "bottom" = "middle"
+
+    if ( scrolled < threshold ) {
+      newPosition = "top"
+    } else if ( scrolled > bottomThreshold ) {
+      newPosition = "bottom"
+    } 
+
+    setScrollPosition( newPosition )
+
   }, 100), [])
 
   useEffect(() => {
@@ -72,7 +86,7 @@ export const GlobalContextProvider: React.FC<{ children: ReactNode }> = ({ child
   return (
     <GlobalContext.Provider
         value={{
-            isScrolledTop,
+            scrollPosition,
             isScreenSmall,
             isMobileNavVisible, 
             setIsMobileNavVisible

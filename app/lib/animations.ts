@@ -15,8 +15,9 @@ export const fadeRotateScaleTransition = {
 
 export const breathingAnimation = {
     scale: [ 1, 0.8, 1 ],
-    rotate: [ 0, 5, -5, 0 ], 
+    rotate: [ 0, 8, -8, 0 ],
     opacity: [ 1, 0.5, 1 ],
+    y: [ 0, -5, 0 ],
     transition: {
         duration: 10,
         repeat: Infinity,

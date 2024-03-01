@@ -5,13 +5,12 @@ import { motion } from "framer-motion"
 import { fadeRotateScaleTransition } from "@/app/lib/animations"
 import { BiMenu } from "react-icons/bi"
 import { GiCrossMark } from "react-icons/gi"
+import clsx from "clsx"
 
 const Hamburger: React.FC = () => {
     const { 
-        isScreenSmall, 
-        isScrolledTop, 
-        isMobileNavVisible, 
-        setIsMobileNavVisible 
+        isScreenSmall, scrollPosition, 
+        isMobileNavVisible, setIsMobileNavVisible 
     } = useGlobalContext()
 
     const handleToggleMenu = useCallback(throttle((e: React.MouseEvent) => {
@@ -24,11 +23,17 @@ const Hamburger: React.FC = () => {
     return (
         <button
             onClick={ handleToggleMenu }
-            className={`${ isScrolledTop || isMobileNavVisible ? "w-12 h-12" : "w-10 h-10" } 
-                        flex items-center justify-center
-            `}
             aria-label={ isMobileNavVisible ? "Skrýt menu" : "Zobrazit menu" }                                 
-        >
+            className={clsx(
+                "flex items-center justify-center", 
+                {
+                    "w-12 h-12": scrollPosition === "top" || 
+                                 scrollPosition === "bottom" || 
+                                 isMobileNavVisible,
+
+                    "w-10 h-10": scrollPosition === "middle"
+                }                       
+        )}>
             <motion.div
                 initial="exit"
                 variants={ fadeRotateScaleTransition }
@@ -36,11 +41,16 @@ const Hamburger: React.FC = () => {
                 className="absolute"
             >
                 <BiMenu 
-                    className={`${ isMobileNavVisible || isScrolledTop ? "text-6xl" : "text-5xl" }
-                                transition-all duration-500
-                                text-secondary ease-in-out
-                    `} 
-                />
+                    className={clsx(
+                        "transition-all duration-500 text-secondary ease-in-out",
+                        {
+                            "text-6xl": isMobileNavVisible || 
+                                        scrollPosition === "top" || 
+                                        scrollPosition === "bottom",
+                            
+                            "text-5xl": scrollPosition === "middle"
+                        }
+                )}/>
             </motion.div>
             <motion.div
                 initial="enter"
@@ -49,10 +59,10 @@ const Hamburger: React.FC = () => {
                 className="absolute"
             >
                 <GiCrossMark 
-                    className="text-5xl text-accent-three 
-                               transition-all 
-                               duration-500 ease-in-out"                    
-                />
+                    className={clsx(
+                        "text-5xl text-accent-three transition-all",
+                        "duration-500 ease-in-out"
+                )}/>
             </motion.div>
         </button>
     )
